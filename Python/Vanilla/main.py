@@ -1,5 +1,12 @@
-import numpy as np
 import time
+import random
+import math
+
+def weight_init(input_size, output_size):
+    return [
+        [random.uniform(-1, 1) for _ in range(input_size)]
+        for _ in range(output_size)
+    ]
 
 class NeuralNetwork:
     def __init__(self, input_size, hidden_size, output_size, num_hidden_layers, learning_rate):
@@ -11,28 +18,16 @@ class NeuralNetwork:
         
         self.weights = []
         self.biases = []
-        np.random.seed(42)
+        random.seed(42)
 
-        self.weights.append(np.random.uniform(
-            low=-1,
-            high=1,
-            size=(hidden_size, input_size)
-        ).tolist())
+        self.weights.append(weight_init(input_size, hidden_size))
         self.biases.append([0.0] * hidden_size)
 
         for _ in range(num_hidden_layers - 1):
-            self.weights.append(np.random.uniform(
-                low=-1,
-                high=1,
-                size=(hidden_size, hidden_size)
-            ).tolist())
+            self.weights.append(weight_init(hidden_size, hidden_size))
             self.biases.append([0.0] * hidden_size)
 
-        self.weights.append(np.random.uniform(
-            low=-1,
-            high=1,
-            size=(output_size, hidden_size)
-        ).tolist())
+        self.weights.append(weight_init(hidden_size, output_size))
         self.biases.append([0.0] * output_size)
 
 
@@ -124,11 +119,10 @@ def main():
     learning_rate = 0.02
     epochs = 1000
 
-    x = np.linspace(0, 100)
-    y = np.sin(x)
+    x = [x for x in range(101)]
+    y = [math.sin(i) for i in x]
 
-
-    inputs = np.array([y[i:i+inputSize] for i in range(len(y)-inputSize)])
+    inputs = [y[i:i+inputSize] for i in range(len(y)-inputSize)]
     targets = y[inputSize:]
 
     nn = NeuralNetwork(inputSize, hiddenLayerSize, outputSize, numHiddenLayers, learning_rate)
