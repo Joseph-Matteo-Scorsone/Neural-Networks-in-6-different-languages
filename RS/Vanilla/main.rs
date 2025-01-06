@@ -3,7 +3,7 @@ use rand::rngs::StdRng;
 use rand::SeedableRng;
 use std::time::Instant;
 
-#[allow(dead_code)]
+#[derive(Debug)]
 struct NeuralNetwork {
     input_size: i32,
     hidden_size: i32,
@@ -151,6 +151,7 @@ fn main() {
     let epochs = 1000;
 
     let mut nn = NeuralNetwork::new(input_size, hidden_size, output_size, num_hidden_layers, learning_rate);
+    // println!("{:?}", nn);
 
     let data_length = 100;
     let sin_data: Vec<f64> = (0..=data_length).map(|i| (i as f64).sin()).collect();
@@ -175,4 +176,5 @@ fn main() {
 
     let elapsed_time = now.elapsed();
     println!("Elapsed time {} seconds", elapsed_time.as_secs_f64());
+    // println!("{:?}", nn);
 }
