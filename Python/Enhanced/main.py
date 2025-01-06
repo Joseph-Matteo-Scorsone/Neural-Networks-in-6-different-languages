@@ -1,6 +1,5 @@
 import numpy as np
 import time
-import asyncio
 
 class NeuralNetwork:
     def __init__(self, input_size, hidden_size, output_size, num_hidden_layers, learning_rate):
@@ -41,7 +40,7 @@ class NeuralNetwork:
         return np.where(x > 0, 1, 0)
 
 
-    async def predict(self, input_layer: np.ndarray) -> float:
+    def predict(self, input_layer: np.ndarray) -> float:
         current = input_layer
 
         # Forward pass through hidden layers
@@ -55,7 +54,7 @@ class NeuralNetwork:
         output = np.dot(self.weights[-1], current) + self.biases[-1]
         return float(output[0])
 
-    async def train(self, inputs: np.ndarray, targets: np.ndarray) -> None:
+    def train(self, inputs: np.ndarray, targets: np.ndarray) -> None:
         for input_layer, target in zip(inputs, targets):
             # Forward pass
             layer_outputs = [input_layer]
@@ -94,7 +93,7 @@ class NeuralNetwork:
                 )
                 self.biases[layer] -= self.learning_rate * delta
 
-async def main():
+def main():
     start_time = time.time()
 
     inputSize = 5
@@ -104,9 +103,8 @@ async def main():
     learning_rate = 0.02
     epochs = 1000
 
-    x = np.linspace(0, 100)
+    x = np.linspace(0, 100, num=100)
     y = np.sin(x)
-
 
     inputs = np.array([y[i:i+inputSize] for i in range(len(y)-inputSize)])
     targets = y[inputSize:]
@@ -114,10 +112,10 @@ async def main():
     nn = NeuralNetwork(inputSize, hiddenLayerSize, outputSize, numHiddenLayers, learning_rate)
 
     for _ in range(epochs):
-        await nn.train(inputs, targets)
+        nn.train(inputs, targets)
 
     last_input = inputs[-1]
-    prediction = await nn.predict(last_input)
+    prediction = nn.predict(last_input)
     actual = y[-1]
 
     print(f"Prediction: {prediction:.2f}")
@@ -130,5 +128,5 @@ async def main():
     print(f"Elapsed time: {elapsed_time} seconds")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
     # I think over a second off

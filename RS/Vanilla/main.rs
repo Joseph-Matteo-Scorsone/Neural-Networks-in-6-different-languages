@@ -1,7 +1,7 @@
 use rand::Rng;
 use rand::rngs::StdRng;
 use rand::SeedableRng;
-use std::time::{Instant};
+use std::time::Instant;
 
 #[allow(dead_code)]
 struct NeuralNetwork {
@@ -80,7 +80,7 @@ impl NeuralNetwork {
 
     // function to train Neural Network
     fn train(&mut self, input: &[f64], target: f64) {
-        let mut layer_outputs = Vec::new();
+        let mut layer_outputs = Vec::with_capacity(self.num_hidden_layers as usize + 1);
         layer_outputs.push(input.to_vec());
 
         // Forward pass
@@ -153,11 +153,11 @@ fn main() {
     let mut nn = NeuralNetwork::new(input_size, hidden_size, output_size, num_hidden_layers, learning_rate);
 
     let data_length = 100;
-    let sin_data: Vec<f64> = (0..data_length).map(|i| (i as f64).sin()).collect();
+    let sin_data: Vec<f64> = (0..=data_length).map(|i| (i as f64).sin()).collect();
     
     for _ in 0..epochs {
 
-        for i in (input_size as usize)..data_length {
+        for i in (input_size as usize)..=data_length {
             let input = &sin_data[i - input_size as usize..i];
             let target = sin_data[i];
 

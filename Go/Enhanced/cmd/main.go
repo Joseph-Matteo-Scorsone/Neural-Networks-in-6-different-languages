@@ -74,7 +74,7 @@ func main() {
 
 	// End timing and output
 	elapsed := time.Since(start)
-	fmt.Printf("Execution time: %.6f seconds\n", elapsed.Seconds())
+	fmt.Printf("Elapsed time: %.6f seconds\n", elapsed.Seconds())
 }
 // fixes. Old code. Pretty dang fast. Modify for batch training. Just main.go
 // thats all
